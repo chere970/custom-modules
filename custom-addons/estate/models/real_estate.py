@@ -45,3 +45,4 @@ class RealEstate(models.Model):
         ],
     )
     property_type_id=fields.Many2one("estate.property.type")
+    offer_ids=fields.one2many("estate.property.offer","property_id")
