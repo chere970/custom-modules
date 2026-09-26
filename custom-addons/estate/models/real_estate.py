@@ -27,7 +27,7 @@ class RealEstate(models.Model):
     date_availability = fields.Date(default=_default_date)
     expected_price = fields.Float()
     best_offer = fields.Float()
-    selling_price = fields.Float()
+    selling_price = fields.Float(readonly=True)
 
     description = fields.Text()  
     bedroms=fields.Integer()
