@@ -35,3 +35,12 @@ class RealEstate(models.Model):
     fecades=fields.Integer()
     garage=fields.Boolean()
     garden=fields.Boolean()
+    total_area=fields.Integer()
+    garden_orientation=fields.Selection(
+        [
+            ("north","North"),
+            ("south","South"),
+            ("east","East"),
+            ("west","West"),
+        ]
+    )
