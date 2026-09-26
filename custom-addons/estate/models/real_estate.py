@@ -42,5 +42,6 @@ class RealEstate(models.Model):
             ("south","South"),
             ("east","East"),
             ("west","West"),
-        ]
+        ],
     )
+    property_type_id=fields.Many2one("estate.property.type")
