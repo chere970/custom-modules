@@ -16,13 +16,22 @@ class RealEstate(models.Model):
         ],
         required=True,
         copy=False,
+        default="new"
     )
     postcode = fields.Char()
+    
+    def _default_date(self):
+        return fields.Date.today()
 
     # Can either write the one line method in the field definition, or call a m
-    date_availability = fields.Date()
+    date_availability = fields.Date(default=_default_date)
     expected_price = fields.Float()
     best_offer = fields.Float()
     selling_price = fields.Float()
 
-    description = fields.Text()   
+    description = fields.Text()  
+    bedroms=fields.Integer()
+    living_area=fields.Integer() 
+    fecades=fields.Integer()
+    garage=fields.Boolean()
+    garden=fields.Boolean()
