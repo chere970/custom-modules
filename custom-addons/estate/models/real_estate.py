@@ -44,5 +44,6 @@ class RealEstate(models.Model):
             ("west","West"),
         ],
     )
-    property_type_id=fields.Many2one("estate.property.type")
-    offer_ids=fields.one2many("estate.property.offer","property_id")
+    code=fields.Char()
+    # property_type_id=fields.Many2one("estate.property.type")
+    # offer_ids=fields.One2many("estate.property.offer","property_id")
