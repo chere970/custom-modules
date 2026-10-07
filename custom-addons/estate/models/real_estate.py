@@ -1,4 +1,5 @@
 from odoo import fields, models
+from odoo.exceptions import UserError
 
 class RealEstate(models.Model):
     _name= "real.estate"
@@ -45,5 +46,20 @@ class RealEstate(models.Model):
         ],
     )
     code=fields.Char()
-    # property_type_id=fields.Many2one("estate.property.type")
+    phone=fields.Char()
+    property_type_id=fields.Many2one("estate.property.type")
     # offer_ids=fields.One2many("estate.property.offer","property_id")
+    
+    def action_sold(self):
+        for record in self:
+            if record.state == "canceled":
+                raise UserError("A canceled property cannot be set as sold.")
+            record.state = "sold"
+        return True
+
+    def action_cancel(self):
+        for record in self:
+            if record.state == "sold":
+                raise UserError("A sold property cannot be canceled.")
+            record.state = "canceled"
+        return True
