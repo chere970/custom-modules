@@ -138,4 +138,30 @@
 
     </record>
 
+    <odoo>
+    <record id="estate_cancel_wizard_view_form" model="ir.ui.view">
+        <field name="name">estate.cancel.wizard.form</field>
+        <field name="model">estate.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Cancel Property">
+                <sheet>
+                    <group>
+                        <field name="reason" placeholder="Why is this listing canceled?"/>
+                    </group>
+                </sheet>
+                <!-- Wizard Footer: Action button and Cancel button -->
+                <footer>
+                    <button name="action_confirm_cancel" 
+                            string="Confirm Cancellation" 
+                            type="object" 
+                            class="btn-danger"/>
+                    <button string="Discard" 
+                            class="btn-secondary" 
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
+
 </odoo>

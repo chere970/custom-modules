@@ -58,8 +58,37 @@ class RealEstate(models.Model):
         return True
 
     def action_cancel(self):
-        for record in self:
-            if record.state == "sold":
-                raise UserError("A sold property cannot be canceled.")
-            record.state = "canceled"
+        # for record in self:
+        #     if record.state == "sold":
+        #         raise UserError("A sold property cannot be canceled.")
+        #     record.state = "canceled"
+        # return True
+        return {
+            "type": "ir.actions.act_window",
+            "name": "Cancel Property",
+            "res_model": "estate.cancel.wizard",
+            "view_mode": "form",
+            "target": "new",  # 'new' tells Odoo to open in a pop-up modal window
+            "context": {"default_property_id": self.id},
+        }
+    
+    
+from odoo import fields, models
+
+class EstateCancelWizard(models.TransientModel):
+    _name = "estate.cancel.wizard"
+    _description = "Cancel Property Wizard"
+
+    reason = fields.Text(string="Reason for Cancellation", required=True)
+
+    def action_confirm_cancel(self):
+        # Retrieve the property record ID that opened this wizard
+        active_id = self.env.context.get("active_id")
+        if active_id:
+            property_record = self.env["real.estate"].browse(active_id)
+            property_record.state = "canceled"
+            # Append the reason to property description or a dedicated log field
+            property_record.description = (
+                f"{property_record.description or ''}\nCancellation Reason: {self.reason}"
+            )
         return True
