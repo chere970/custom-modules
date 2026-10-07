@@ -1,5 +1,5 @@
 <odoo>
-    <menuitem id="root_level" name="Estate">
+    <menuitem id="root_level" name="Estate ">
 
        <menuitem id="second_level" name="Priperties">
             <menuitem id="third_level" name="All Properties" action="test_record"/>
