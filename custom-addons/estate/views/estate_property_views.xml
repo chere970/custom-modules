@@ -94,7 +94,8 @@
                                 <field name="date_availability"/>
                             </group>
                             <group>
-                                <field name="expected_price"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="expected_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="selling_price"/>
                             </group>
                         </group>

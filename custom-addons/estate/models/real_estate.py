@@ -26,9 +26,20 @@ class RealEstate(models.Model):
 
     # Can either write the one line method in the field definition, or call a m
     date_availability = fields.Date(default=_default_date)
-    expected_price = fields.Float()
+    company_id = fields.Many2one(
+    "res.company", 
+    string="Company", 
+    default=lambda self: self.env.company
+    )
+    currency_id = fields.Many2one(
+    "res.currency", 
+    string="Currency", 
+    related="company_id.currency_id", 
+    readonly=True
+    )
+    expected_price = fields.Monetary()
     best_offer = fields.Float()
-    selling_price = fields.Float(readonly=True)
+    selling_price = fields.Monetary(readonly=True)
 
     description = fields.Text()  
     bedroms=fields.Integer()
