@@ -59,6 +59,12 @@ class RealEstate(models.Model):
     code=fields.Char()
     phone=fields.Char()
     property_type_id=fields.Many2one("estate.property.type")
+    image=fields.Image(string="Image")
+    tag_ids=fields.Many2many("estate.property.tag",string="Tags")
+    
+    email = fields.Char(
+    string="Email"
+    )
     # offer_ids=fields.One2many("estate.property.offer","property_id")
     
     def action_sold(self):

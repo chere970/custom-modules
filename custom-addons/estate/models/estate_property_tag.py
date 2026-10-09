@@ -1,17 +1,14 @@
 from odoo import fields, models
 
 
-class EstateOffer(models.Model):
-    _name = "estate.property.offer"
-    _description = "Offers made for real estates"
+class EstatePropertyTag(models.Model):
+    _name = "estate.property.tag"
+    _description = "Property Tag"
+    _order = "name"
 
-    price = fields.Float()
-    status = fields.Selection(
-        [
-            ("accepted", "Accepted"),
-            ("refused", "Refused"),
-        ],
-        copy=False,
-    )
-    partner_id = fields.Many2one("res.partner", required=True)
-    property_id = fields.Many2one("real.estate", required=True)
+    name = fields.Char(string="Name", required=True)
+    color = fields.Integer(string="Color")  # Enables colorful pill badges in the UI
+
+    _sql_constraints = [
+        ("check_name", "UNIQUE(name)", "The tag name must be unique!"),
+    ]

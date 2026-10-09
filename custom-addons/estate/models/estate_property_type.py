@@ -6,4 +6,4 @@ class PropertyType(models.Model):
     
     
     name=fields.Char(string="Name")
-    real_state_ids=fields.One2many("real.estate","property_type_id")
+    real_state_ids=fields.One2many("real.estate", "property_type_id", string="Real Estate Properties")

@@ -77,10 +77,12 @@
             </header>
             <sheet>
                 <div class="oe_title">
+                    <field name="image" widget="image" class="img-fluid mb-3"/>
                     <label for="name" string="Property Name"/>
                     <h1>
                         <field name="name" placeholder="e.g. Cozy Villa"/>
                     </h1>
+                    
                 </div>
 
                 <!-- Notebook container for tabs -->
@@ -97,6 +99,8 @@
                                 <field name="currency_id" invisible="1"/>
                                 <field name="expected_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="selling_price"/>
+                                <field name="email" widget="email"/>
+                                <field name="tag_ids" widget="many2many_tags" options="{'color_field':'color'}"/>
                             </group>
                         </group>
                     </page>
@@ -104,6 +108,7 @@
                     <!-- Second Page / Tab -->
                     <page string="Contact &amp; Details">
                         <group>
+                    
                             <field name="phone" widget="phone"/>
                             <field name="code"/>
                         </group>
