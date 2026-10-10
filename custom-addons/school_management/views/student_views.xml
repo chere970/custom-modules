@@ -40,6 +40,23 @@
     </record>
 
 
+    <record  id="view_shool_student_phone"  model="ir.ui.view">
+        <field name="name">school.student.form.inherit</field>
+        <field name="model">school.student</field>
+        <field name="inherit_id" ref="school_management.view_school_student_form"/>
+
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='email']" position="after">
+               <field name="phone"/>
+            </xpath>
+
+        </field>
+
+
+    </record>
+
+
     <!-- Student Action -->
     <record id="action_school_student" model="ir.actions.act_window">
         <field name="name">Students</field>

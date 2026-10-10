@@ -27,3 +27,4 @@ class Student(models.Model):
         string='Active',
         default=True
     )
+    phone=fields.Char(string="Phone")
