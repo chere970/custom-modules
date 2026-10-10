@@ -10,7 +10,7 @@ Fill TODOs, fix the broken view inherit, install and demo.
     """,
     "author": "Tolo Solutions (hiring starter)",
     "license": "LGPL-3",
-    "depends": ["base"],
+    "depends": ["base","mail"],
     "data": [
         "security/tolo_todo_security.xml",
         "security/ir.model.access.csv",
