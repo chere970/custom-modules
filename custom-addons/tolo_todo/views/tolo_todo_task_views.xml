@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tolo_todo_task_list" model="ir.ui.view">
+        <field name="name">tolo.todo.task.list</field>
+        <field name="model">tolo.todo.task</field>
+        <field name="arch" type="xml">
+            <list string="Todo Tasks">
+                <field name="name"/>
+                <field name="assignee_id"/>
+                <field name="deadline"/>
+                <field name="priority"/>
+                <field name="state"/>
+                
+                <!-- TODO: add field is_overdue -->
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tolo_todo_task_form" model="ir.ui.view">
+        <field name="name">tolo.todo.task.form</field>
+        <field name="model">tolo.todo.task</field>
+        <field name="arch" type="xml">
+            <form string="Todo Task">
+                <header>
+                    <!-- TODO: use widget="statusbar" on state -->
+                    <!-- <field name="state"/> -->
+                    <field name="state"  widget="statusbar" status_visisble="draft,in_progress,done" readonly="1"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="assignee_id"/>
+                        <field name="deadline"/>
+                        <field name="priority"/>
+                        <field name="is_overdue"  readonly="1"/>
+                        <field name="state"  string="State"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- BROKEN on purpose: xpath targets a field that does not exist.
+         Fix the xpath OR delete this whole record so the module installs. -->
+    <record id="view_tolo_todo_task_list_inherit_broken" model="ir.ui.view">
+        <field name="name">tolo.todo.task.list.inherit.broken</field>
+        <field name="model">tolo.todo.task</field>
+        <field name="inherit_id" ref="view_tolo_todo_task_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='priority']" position="after">
+                <field name="is_overdue"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_tolo_todo_task" model="ir.actions.act_window">
+        <field name="name">Todo Tasks</field>
+        <field name="res_model">tolo.todo.task</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_tolo_todo_root"
+              name="Tolo Todo"
+              sequence="100"/>
+
+    <menuitem id="menu_tolo_todo_tasks"
+              name="Tasks"
+              parent="menu_tolo_todo_root"
+              action="action_tolo_todo_task"
+              sequence="10"/>
+</odoo>
