@@ -21,11 +21,26 @@
         <field name="model">tolo.todo.task</field>
         <field name="arch" type="xml">
             <form string="Todo Task">
-                <header>
-                    <!-- TODO: use widget="statusbar" on state -->
-                    <!-- <field name="state"/> -->
-                    <field name="state"  widget="statusbar" status_visisble="draft,in_progress,done" readonly="1"/>
-                </header>
+              <header>
+                
+                <button name="action_start" string="Start Task" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+            
+               <button name="action_done" string="Mark as Done" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+            
+
+    <!-- Cancel button: Managers can cancel draft & in_progress; Users only draft -->
+               <button name="action_cancel" string="Cancel Task" type="object"
+                invisible="state not in ('draft', 'in_progress')"
+                groups="tolo_todo.group_tolo_todo_manager"/>
+               <button name="action_cancel" string="Cancel Task" type="object"
+                 invisible="state != 'draft'"
+                groups="!tolo_todo.group_tolo_todo_manager"/>
+
+               <button name="action_reset_draft" string="Reset to Draft" type="object"
+                invisible="state != 'cancelled'"/>
+               <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+
+              </header>
                 <sheet>
                     <group>
                         <field name="name"/>

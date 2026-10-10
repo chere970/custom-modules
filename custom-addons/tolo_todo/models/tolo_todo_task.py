@@ -24,7 +24,7 @@ class ToloTodoTask(models.Model):
     )
     created_by=fields.Many2one("res.users",invisible=True)
     assignee_id = fields.Many2one("res.users", string="Assignee")
-    deadline = fields.Datetime(string="Deadline" ,tracking=True)
+    deadline = fields.Date(string="Deadline" ,tracking=True)
     priority = fields.Selection(
         [
             ("0", "Low"),
