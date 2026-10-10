@@ -22,7 +22,7 @@ class ToloTodoTask(models.Model):
         default="draft",
         required=True,
     )
-    created_by=fields.Many2one("res.users",invisible=True)
+    created_by=fields.Many2one("res.users")
     assignee_id = fields.Many2one("res.users", string="Assignee")
     deadline = fields.Date(string="Deadline" ,tracking=True)
     priority = fields.Selection(
@@ -49,7 +49,7 @@ class ToloTodoTask(models.Model):
     is_overdue = fields.Boolean(
         string="Is Overdue",
         compute="_compute_is_overdue",
-        store=True,
+        
         # TODO: choose store=True or False and be ready to explain why
     )
 
@@ -98,7 +98,7 @@ class ToloTodoTask(models.Model):
             record.state = 'done'
 
     def action_cancel(self):
-        is_manager = self.env.user.has_group('tolo_todo.group_todo_manager')
+        is_manager = self.env.user.has_group('tolo_todo.group_tolo_todo_manager')
         for record in self:
             if record.state == 'draft':
                 record.state = 'cancelled'

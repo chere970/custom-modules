@@ -5,14 +5,15 @@
         <field name="model">tolo.todo.task</field>
         <field name="arch" type="xml">
             <list decoration-muted="state == 'cancelled'"
-                  decoration-success="state == 'done'"
-                  decoration-warning="is_overdue == True and state == 'in_progress'"
-                  decoration-danger="is_overdue == True and state == 'draft'"
-                  string="Todo Tasks">
+                  decoration-success="state == 'done'" decoration-warning="is_overdue  and state == 'in_progress'"
+                  decoration-danger="is_overdue and state == 'draft'" string="Todo Tasks">
+                  
+                  
                 <field name="priority" widget="priority" optional="show"/>
                 <field name="name"/>
-                <field name="user_id" widget="many2one_avatar_user"/>
-                <field name="date_deadline"/>
+                <field name="assignee_id" widget="many2one_avatar_user"/>
+                <field name="deadline"/>
+                <field name="is_overdue" column_invisible="True"/>
                 
                 <field name="state" widget="badge"
                        decoration-info="state == 'draft'"
@@ -58,12 +59,12 @@
                     </div>
                     <group>
                         <group>
-                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="assignee_id" widget="many2one_avatar_user"/>
                             <field name="priority" widget="priority"/>
                         </group>
                         <group>
-                            <field name="date_deadline"/>
-                            <field name="is_overdue" invisible="1"/>
+                            <field name="deadline"/>
+                            <field name="is_overdue" column_invisible="True"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
@@ -80,16 +81,7 @@
 
     <!-- BROKEN on purpose: xpath targets a field that does not exist.
          Fix the xpath OR delete this whole record so the module installs. -->
-    <record id="view_tolo_todo_task_list_inherit_broken" model="ir.ui.view">
-        <field name="name">tolo.todo.task.list.inherit.broken</field>
-        <field name="model">tolo.todo.task</field>
-        <field name="inherit_id" ref="view_tolo_todo_task_list"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='priority']" position="after">
-                <field name="is_overdue" invisible="1"/>
-            </xpath>
-        </field>
-    </record>
+    
 
 
     <!-- Search View -->
@@ -99,16 +91,16 @@
         <field name="arch" type="xml">
             <search string="Search Tasks">
                 <field name="name" string="Task"/>
-                <field name="user_id"/>
-                <filter name="my_tasks" string="My Tasks" domain="[('user_id', '=', uid)]"/>
+                <field name="assignee_id"/>
+                <filter name="my_tasks" string="My Tasks" domain="[('assignee_id', '=', uid)]"/>
                 <separator/>
                 <filter name="open_tasks" string="Open Tasks" domain="[('state', 'in', ('draft', 'in_progress'))]"/>
                 <filter name="overdue" string="Overdue" domain="[('is_overdue', '=', True)]"/>
                 <separator/>
                 <group expand="0" string="Group By">
-                    <filter name="group_user" string="Assignee" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_user" string="Assignee" context="{'group_by': 'assignee_id'}"/>
                     <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
-                    <filter name="group_deadline" string="Deadline" context="{'group_by': 'date_deadline'}"/>
+                    <filter name="group_deadline" string="Deadline" context="{'group_by': 'deadline'}"/>
                 </group>
             </search>
         </field>

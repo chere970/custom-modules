@@ -15,6 +15,8 @@ Fill TODOs, fix the broken view inherit, install and demo.
         "security/tolo_todo_security.xml",
         "security/ir.model.access.csv",
         "views/tolo_todo_task_views.xml",
+        "report/report_todo_task.xml",
+        "report/report_todo_task_templates.xml",
     ],
     "installable": True,
     "application": True,
