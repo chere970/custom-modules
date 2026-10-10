@@ -4,14 +4,21 @@
         <field name="name">tolo.todo.task.list</field>
         <field name="model">tolo.todo.task</field>
         <field name="arch" type="xml">
-            <list string="Todo Tasks">
+            <list decoration-muted="state == 'cancelled'"
+                  decoration-success="state == 'done'"
+                  decoration-warning="is_overdue == True and state == 'in_progress'"
+                  decoration-danger="is_overdue == True and state == 'draft'"
+                  string="Todo Tasks">
+                <field name="priority" widget="priority" optional="show"/>
                 <field name="name"/>
-                <field name="assignee_id"/>
-                <field name="deadline"/>
-                <field name="priority"/>
-                <field name="state"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="date_deadline"/>
                 
-                <!-- TODO: add field is_overdue -->
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-primary="state == 'in_progress'"
+                       decoration-success="state == 'done'"
+                       decoration-secondary="state == 'cancelled'"/>
             </list>
         </field>
     </record>
@@ -28,7 +35,7 @@
                <button name="action_done" string="Mark as Done" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
             
 
-    <!-- Cancel button: Managers can cancel draft & in_progress; Users only draft -->
+                 <!-- Cancel button: Managers can cancel draft & in_progress; Users only draft -->
                <button name="action_cancel" string="Cancel Task" type="object"
                 invisible="state not in ('draft', 'in_progress')"
                 groups="tolo_todo.group_tolo_todo_manager"/>
@@ -42,18 +49,31 @@
 
               </header>
                 <sheet>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Prepare monthly audit report"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="assignee_id"/>
-                        <field name="deadline"/>
-                        <field name="priority"/>
-                        <field name="is_overdue"  readonly="1"/>
-                        <field name="state"  string="State"/>
+                        <group>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="priority" widget="priority"/>
+                        </group>
+                        <group>
+                            <field name="date_deadline"/>
+                            <field name="is_overdue" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="description"/>
-                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Add specific task notes..."/>
+                        </page>
+                    </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
@@ -66,8 +86,31 @@
         <field name="inherit_id" ref="view_tolo_todo_task_list"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='priority']" position="after">
-                <field name="is_overdue"/>
+                <field name="is_overdue" invisible="1"/>
             </xpath>
+        </field>
+    </record>
+
+
+    <!-- Search View -->
+    <record id="view_todo_task_search" model="ir.ui.view">
+        <field name="name">tolo.todo.task.search</field>
+        <field name="model">tolo.todo.task</field>
+        <field name="arch" type="xml">
+            <search string="Search Tasks">
+                <field name="name" string="Task"/>
+                <field name="user_id"/>
+                <filter name="my_tasks" string="My Tasks" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="open_tasks" string="Open Tasks" domain="[('state', 'in', ('draft', 'in_progress'))]"/>
+                <filter name="overdue" string="Overdue" domain="[('is_overdue', '=', True)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_user" string="Assignee" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="group_deadline" string="Deadline" context="{'group_by': 'date_deadline'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
@@ -75,9 +118,15 @@
         <field name="name">Todo Tasks</field>
         <field name="res_model">tolo.todo.task</field>
         <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_my_tasks': 1, 'search_default_open_tasks': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first task!
+            </p>
+        </field>
     </record>
 
-    <menuitem id="menu_tolo_todo_root"
+    <!-- <menuitem id="menu_tolo_todo_root"
               name="Tolo Todo"
               sequence="100"/>
 
@@ -85,5 +134,5 @@
               name="Tasks"
               parent="menu_tolo_todo_root"
               action="action_tolo_todo_task"
-              sequence="10"/>
+              sequence="10"/> -->
 </odoo>

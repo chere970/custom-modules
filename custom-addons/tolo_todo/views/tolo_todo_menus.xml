@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_todo_root"
+              name="Tolo Todo"
+              web_icon="tolo_todo,static/description/icon.png"
+              sequence="10"/>
+
+    <menuitem id="menu_todo_task"
+              name="All Tasks"
+              parent="menu_todo_root"
+              action="action_todo_task"
+              sequence="10"/>
+</odoo>
