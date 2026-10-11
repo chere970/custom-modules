@@ -8,6 +8,6 @@
     <menuitem id="menu_todo_task"
               name="All Tasks"
               parent="menu_todo_root"
-              action="action_todo_task"
+              action="action_tolo_todo_task"
               sequence="10"/>
 </odoo>
