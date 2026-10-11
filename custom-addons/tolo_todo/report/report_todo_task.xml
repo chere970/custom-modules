@@ -2,7 +2,7 @@
 <odoo>
     <record id="action_report_todo_task" model="ir.actions.report">
         <field name="name">Todo Task Sheet</field>
-        <field name="model">todo.task</field>
+        <field name="model">tolo.todo.task</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">tolo_todo.report_todo_task_template</field>
         <field name="report_file">tolo_todo.report_todo_task_template</field>

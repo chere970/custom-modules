@@ -49,6 +49,7 @@ class ToloTodoTask(models.Model):
     is_overdue = fields.Boolean(
         string="Is Overdue",
         compute="_compute_is_overdue",
+        search="_search_is_overdue",
         
         # TODO: choose store=True or False and be ready to explain why
     )

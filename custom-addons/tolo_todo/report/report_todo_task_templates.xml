@@ -11,7 +11,7 @@
                         <div class="row mt-3 mb-4">
                             <div class="col-6">
                                 <strong>Assignee:</strong> <span t-field="doc.assignee_id.name"/><br/>
-                                <strong>Deadline:</strong> <span t-field="doc.date_deadline"/><br/>
+                                <strong>Deadline:</strong> <span t-field="doc.deadline"/><br/>
                                 <strong>Company:</strong> <span t-field="doc.company_id.name"/>
                             </div>
                             <div class="col-6">

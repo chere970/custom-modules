@@ -16,10 +16,7 @@
                 <field name="is_overdue" column_invisible="True"/>
                 
                 <field name="state" widget="badge"
-                       decoration-info="state == 'draft'"
-                       decoration-primary="state == 'in_progress'"
-                       decoration-success="state == 'done'"
-                       decoration-secondary="state == 'cancelled'"/>
+                       />
             </list>
         </field>
     </record>
@@ -83,28 +80,6 @@
          Fix the xpath OR delete this whole record so the module installs. -->
     
 
-
-    <!-- Search View -->
-    <record id="view_todo_task_search" model="ir.ui.view">
-        <field name="name">tolo.todo.task.search</field>
-        <field name="model">tolo.todo.task</field>
-        <field name="arch" type="xml">
-            <search string="Search Tasks">
-                <field name="name" string="Task"/>
-                <field name="assignee_id"/>
-                <filter name="my_tasks" string="My Tasks" domain="[('assignee_id', '=', uid)]"/>
-                <separator/>
-                <filter name="open_tasks" string="Open Tasks" domain="[('state', 'in', ('draft', 'in_progress'))]"/>
-                <filter name="overdue" string="Overdue" domain="[('is_overdue', '=', True)]"/>
-                <separator/>
-                <group expand="0" string="Group By">
-                    <filter name="group_user" string="Assignee" context="{'group_by': 'assignee_id'}"/>
-                    <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
-                    <filter name="group_deadline" string="Deadline" context="{'group_by': 'deadline'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
 
     <record id="action_tolo_todo_task" model="ir.actions.act_window">
         <field name="name">Todo Tasks</field>
