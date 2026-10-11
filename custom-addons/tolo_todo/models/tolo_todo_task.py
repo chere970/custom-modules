@@ -53,6 +53,14 @@ class ToloTodoTask(models.Model):
         
         # TODO: choose store=True or False and be ready to explain why
     )
+    
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Customer / Contact',
+        tracking=True,
+        help="Optional contact or client related to this task.",
+    )
+    
 
     # @api.depends("deadline", "state")
     # def _compute_is_overdue(self):
@@ -166,3 +174,32 @@ class ToloTodoTask(models.Model):
                         subtype_xmlid='mail.mt_comment',
                     )
         return res
+    
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    todo_task_count = fields.Integer(
+        string='Todo Tasks Count',
+        compute='_compute_todo_task_count',
+    )
+
+    def _compute_todo_task_count(self):
+        task_data = self.env['tolo.todo.task'].read_group(
+            domain=[('partner_id', 'in', self.ids)],
+            fields=['partner_id'],
+            groupby=['partner_id'],
+        )
+        data_map = {item['partner_id'][0]: item['partner_id_count'] for item in task_data}
+        for partner in self:
+            partner.todo_task_count = data_map.get(partner.id, 0)
+
+    def action_view_todo_tasks(self):
+        self.ensure_one()
+        return {
+            'name': 'Tasks for %s' % self.name,
+            'type': 'ir.actions.act_window',
+            'res_model': 'tolo.todo.task',
+            'view_mode': 'list,form',
+            'domain': [('partner_id', '=', self.id)],
+            'context': {'default_partner_id': self.id},
+        }
